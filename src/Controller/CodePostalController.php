@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Form\SendmailType;
 use App\Form\CodePostalType;
 use App\Service\Curlconnexion;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CodePostalController extends AbstractController
 {
     #[Route('/', name: 'app_code_postal')]
-    public function index(Request $request, Curlconnexion $curlconnexion ): Response
+    public function index(Request $request, Curlconnexion $curlconnexion, MailerInterface $mailer ): Response
     {
 
 
@@ -53,6 +57,37 @@ class CodePostalController extends AbstractController
             }                  
         }
 
+        $mailform = $this->createForm(SendmailType::class);
+        $mailform->handleRequest($request);
+        
+        if ($mailform->isSubmitted() && $mailform->isValid()) {
+            $note = htmlspecialchars($mailform->getData()['note']) ;
+            $lat = $mailform->get('lat')->getData();
+            $lon = $mailform->get('lon')->getData();
+            $city = htmlspecialchars($mailform->get('city')->getData());
+            $from = htmlspecialchars($mailform->get('mail')->getData());
+            // dd($mailform->getData());
+            $email = (new TemplatedEmail())
+            ->from($from)
+            ->to('pierrot@example.com')
+            ->subject('Thanks for signing up!')
+
+            // path of the Twig template to render
+            ->htmlTemplate('email/template.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'note' => $note,
+                'lat' => $lat,
+                'lon' => $lon,
+                'city' => $city,
+            ]);
+
+            $mailer->send($email);
+
+            return $this->redirectToRoute('app_code_postal');
+        }
+
         return $this->render('code_postal/index.html.twig', [
             'coordinates' => $coordinates,
             'codepostal' => $codepostal,
@@ -61,8 +96,12 @@ class CodePostalController extends AbstractController
             'lon' => $lon,
             'name' => $display_name,
             'form' => $form->createView(),
+            'mailform' => $mailform->createView()
             
             
         ]);
     }
+
+
+
 }

@@ -14,10 +14,18 @@
     {{ form_widget(form) }}
 {{ form_end(form) }}
 
+<a href="{{  path('app_dompdf', { 'lat': lat|replace({'.': 'a'}), 'lon':lon|replace({'.': 'a'}), 'name':name|replace({'.': 'a'}) })  }}">imprimer PDF</a>
+
 <div class="mapLeaflet">
     <div id="map"></div>
 
+
+
 </div>
 
-
+{{ form_start(mailform, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_row(mailform.city, {'attr':{'value': town} } ) }}
+    {{ form_row(mailform.lat, {'attr':{'value': lat} } ) }}
+    {{ form_row(mailform.lon, {'attr':{'value': lon} } ) }}
+{{ form_end(mailform) }}
 {% endblock %}
