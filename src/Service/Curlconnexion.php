@@ -11,11 +11,11 @@ class Curlconnexion
      * @param string $codepostal
      * @return array
      */
-    public function connexionapi(int $codepostal): array
+    public function connexionapi($town, $codepostal): array
     {
         
 
-        $url = 'https://nominatim.openstreetmap.org/search?country=france&' . $codepostal .'&format=json'; //url à laquelle on fait la demande et qui renverra une réponse
+        $url = 'https://nominatim.openstreetmap.org/search?country=france&city=' . $town . '&postalcode=' . $codepostal .'&format=json'; //url à laquelle on fait la demande et qui renverra une réponse
 
             $ch = curl_init(); //initialisation du cURL
 

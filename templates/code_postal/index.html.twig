@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CodePostalController!{% endblock %}
+{% block title %}CodePostalController!{% endblock %}
 
 {% block body %}
 {# leaflet #}
-<h1>Leaflet et symfony</h1>
-
-{% for coordinate in coordinates %}
-    <li>{{ coordinate.display_name }}</li>
-{% endfor %}
-
-
+<h1>Leaflet</h1>
+<p> {{ name }} </p>
+    <div>latitude : <span id="lat"> {{ lat }}  </span></div>
+    <div>longitude : <span id="lon"> {{ lon }}  </span></div>
 
 
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -19,6 +16,7 @@
 
 <div class="mapLeaflet">
     <div id="map"></div>
+
 </div>
 
 

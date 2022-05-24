@@ -37,15 +37,13 @@ class CodePostalController extends AbstractController
 
             $town = $reponse['town'];
             $codepostal = $reponse['codepostal'];
-            $coordinates = $curlconnexion->connexionapi($codepostal);
-            dd($coordinates);
+            $coordinates = $curlconnexion->connexionapi($town,$codepostal);
+            // dd($coordinates);
             if($coordinates != []){
-                foreach($coordinates as $coordinate){
-                    
-                }
-                // $lat = $coordinates[0]['lat'];
-                // $lon = $coordinates[0]['lon'];
-                // $display_name = $coordinates[0]['display_name'];
+               
+                $lat = $coordinates[0]['lat'];
+                $lon = $coordinates[0]['lon'];
+                $display_name = $coordinates[0]['display_name'];
 
             } else {
                 $lat = 48.856614;

@@ -34,7 +34,7 @@ class CodePostalType extends AbstractType
                 ]
 
                 ])
-            ->add('town', ChoiceType::class,[
+            ->add('town', TextType::class,[
                 'label' => 'Ville',
             ])
             ->add('submit', SubmitType::class, ['label' => 'Chercher'])
