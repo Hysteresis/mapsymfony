@@ -6,6 +6,12 @@
 {# leaflet #}
 <h1>Leaflet et symfony</h1>
 
+{% for coordinate in coordinates %}
+    <li>{{ coordinate.display_name }}</li>
+{% endfor %}
+
+
+
 
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_widget(form) }}
@@ -14,5 +20,6 @@
 <div class="mapLeaflet">
     <div id="map"></div>
 </div>
-    
+
+
 {% endblock %}
